@@ -1,0 +1,19 @@
+---
+
+- name: Generate data center fabric variables for provisioning
+  template:
+    src: dc-fabric-generator.j2
+    dest: ./vars/dc-fabric.yml
+  delegate_to: localhost
+  run_once: true
+
+- name: include data center fabric variables
+  include_vars: ./vars/dc-fabric.yml
+  delegate_to: localhost
+  run_once: true
+
+- name: Generate data center fabric switch configuration
+  template:
+    src: dc-fabric-config.j2
+    dest: ./intended_configs/{{ inventory_hostname }}.cfg
+  delegate_to: localhost

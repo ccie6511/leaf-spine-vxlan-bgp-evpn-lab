@@ -1,0 +1,21 @@
+---
+
+- hosts: ios
+  gather_facts: no
+  vars: 
+    ansible_connection: local
+  
+  tasks:
+
+   - name: configure crypto key
+     telnet:
+       user: "{{ ansible_user }}"
+       password: "{{ ansible_ssh_pass }}"
+       login_prompt: "Username: "
+       port: 23
+       prompts:
+         - "[>|#]"
+       command:
+         - terminal length 0
+         - configure terminal
+         - crypto key generate rsa modulus 1024

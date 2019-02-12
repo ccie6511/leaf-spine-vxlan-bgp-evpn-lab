@@ -1,0 +1,22 @@
+---
+
+- hosts: ios
+
+  tasks:
+
+    - name: Test reachability to mgmt default gateway
+      ios_ping:
+        dest: '{{ item }}'
+      with_items:
+        - 172.16.1.1
+      ignore_errors: yes
+
+- hosts: nxos
+
+  tasks:
+
+    - name: Test reachability to mgmt default gateway
+      nxos_ping:
+        dest: 172.16.1.1
+        vrf: management
+      ignore_errors: yes

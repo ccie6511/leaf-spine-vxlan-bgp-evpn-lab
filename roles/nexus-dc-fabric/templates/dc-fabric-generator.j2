@@ -1,0 +1,34 @@
+## Ansible Generated ##
+
+dc_fabric_switches:
+{# spine switches #}
+{% for spine in groups['spines'] %}
+{% set spine_id = loop.index %}
+{% set total_spines = loop.length %}
+  {{ spine }}:
+{# spine to leaf  L3 ospf point to point interfaces configuration #}
+    interfaces:
+{%     for leaf in groups['leafs'] %}
+      Ethernet1/{{ loop.index }}:
+        description: P2P_UPLINK_TO_{{ leaf | upper }}_{{ hostvars[leaf].uplink_ports[spine_id - 1 ] }}
+        ip_address: {{ underlay_p2p_network_summary | ipaddr('network') | ipmath(((loop.index -1) * total_spines * 2) + (spine_id * 2) - 2) }}/31
+{%     endfor %}
+{# spine - loopback interface #}
+    loopback_ip_address: {{ loopback_network_summary | ipaddr('network') | ipmath(spine_id) }}/32
+{% endfor %}
+
+{% for leaf in groups['leafs'] %}
+{% set leaf_id = loop.index %}
+  {{ leaf }}:
+{# leaf to spine L3 ospf point to point interfaces configuration #}
+    interfaces:
+{%     for spine in groups['spines'] %}
+{%     set spine_id = loop.index %}
+{%     set total_spines = loop.length %}
+      {{ hostvars[leaf].uplink_ports[loop.index0] }}:
+        description: P2P_UPLINK_TO_{{ spine | upper }}_Ethernet1/{{ leaf_id }}
+        ip_address: {{ underlay_p2p_network_summary | ipaddr('network') | ipmath(((leaf_id -1) * total_spines * 2) + ( spine_id *2 ) - 1) }}/31
+{%     endfor %}
+{# leaf - loopback interface #}
+    loopback_ip_address: {{ loopback_network_summary | ipaddr('network') | ipmath(leaf_id + 10) }}/32
+{% endfor %}

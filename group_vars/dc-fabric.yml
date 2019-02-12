@@ -1,0 +1,3 @@
+loopback_network_summary: 10.255.255.0/24
+underlay_p2p_network_summary: 10.255.254.0/24
+underlay_bgp_as: 65500

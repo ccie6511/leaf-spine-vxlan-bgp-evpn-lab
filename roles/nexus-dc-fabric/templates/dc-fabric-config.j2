@@ -1,0 +1,52 @@
+{# router underlay and management configuration #}
+
+{# Fabric features #}
+feature bgp
+feature ospf
+
+{# OSPF process #}
+router ospf underlay
+  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+
+{# OSPF P2P Interfaces #}
+{% for interface in dc_fabric_switches[inventory_hostname].interfaces | natural_sort %}
+interface {{ interface }}
+  description {{ dc_fabric_switches[inventory_hostname].interfaces[interface].description }}
+  no switchport
+  ip address {{ dc_fabric_switches[inventory_hostname].interfaces[interface].ip_address }}
+  mtu 9192
+  ip router ospf UNDERLAY area 0.0.0.0
+  ip ospf network point-to-point
+  no shutdown
+{% endfor %}
+{# loopback interface #}
+interface loopback0
+  ip address {{ dc_fabric_switches[inventory_hostname].loopback_ip_address }}
+  ip router ospf UNDERLAY area 0.0.0.0
+
+{# spine bgp configuration #}
+{% if type == "spine" %}
+router bgp {{ underlay_bgp_as }}
+  address-family ipv4 unicast
+  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+{%     for leaf in groups['leafs'] %}
+  neighbor {{ dc_fabric_switches[leaf].loopback_ip_address | ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+    description {{ inventory_hostname }}-Loopback-to-{{ leaf }}-Loopback
+    address-family ipv4 unicast
+      route-reflector-client
+{%     endfor %}
+{% endif %}
+
+{# leaf bgp configuration #}
+{% if type == "leaf" %}
+router bgp {{ underlay_bgp_as }}
+  address-family ipv4 unicast
+  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+{%     for spine in groups['spines'] %}
+  neighbor {{ dc_fabric_switches[spine].loopback_ip_address | ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+    description {{ inventory_hostname }}-Loopback-to-{{ spine }}-Loopback
+    address-family ipv4 unicast
+{%     endfor %}
+{% endif %}
+
+

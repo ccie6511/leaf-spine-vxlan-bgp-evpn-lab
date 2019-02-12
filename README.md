@@ -1,2 +1,6 @@
-# leaf-spine-vxlan-bgp-evpn-lab
-Lab to demonstrate automation levearging Ansible of a Cisco Nexus 9K Leaf &amp; Spine VXLAN BGP EVPN Fabric
+# dc-network-lab
+
+Cisco NX-OS Leaf and Spine with VXLAN BGP EVPN Fabric Automation with Ansible
+
+## DC Network Physical Topology (VIRL)
+![Alt text](documentation/diagrams/VIRL_network_topology.jpg?raw=true "DC Network Physical Topology (VIRL)")

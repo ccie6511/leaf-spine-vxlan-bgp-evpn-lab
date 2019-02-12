@@ -1,0 +1,29 @@
+---
+
+- hosts: ios
+
+  tasks:
+    - name: show running config
+      ios_command:
+        commands: show running
+      register: backup
+      check_mode: no
+    
+    - name: backup running config
+      copy:
+        content: "{{ backup.stdout[0] }}"
+        dest: "./config_backup/{{ inventory_hostname }}_running-config.conf"
+
+- hosts: nxos
+
+  tasks:
+    - name: show running config
+      nxos_command:
+        commands: "show running | exclude !Time:"
+      register: backup
+      check_mode: no
+    
+    - name: backup running config
+      copy:
+        content: "{{ backup.stdout[0] }}"
+        dest: "./config_backup/{{ inventory_hostname }}_running-config.conf"
