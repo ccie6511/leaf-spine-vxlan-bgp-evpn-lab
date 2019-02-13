@@ -14,7 +14,9 @@ dc_fabric_switches:
         ip_address: {{ underlay_p2p_network_summary | ipaddr('network') | ipmath(((loop.index -1) * total_spines * 2) + (spine_id * 2) - 2) }}/31
 {%     endfor %}
 {# spine - loopback interface #}
-    loopback_ip_address: {{ loopback_network_summary | ipaddr('network') | ipmath(spine_id) }}/32
+    rid_loopback_ip: {{ rid_loopback_network_summary | ipaddr('network') | ipmath(spine_id) }}/32
+    pim_rp_loopback_ip: {{ pim_rp_loopback_network_summary | ipaddr('network') | ipmath(spine_id) }}/32
+    pim_anycast_loopback_ip: {{ pim_anycast_loopback_ip }}
 {% endfor %}
 
 {% for leaf in groups['leafs'] %}
@@ -30,5 +32,6 @@ dc_fabric_switches:
         ip_address: {{ underlay_p2p_network_summary | ipaddr('network') | ipmath(((leaf_id -1) * total_spines * 2) + ( spine_id *2 ) - 1) }}/31
 {%     endfor %}
 {# leaf - loopback interface #}
-    loopback_ip_address: {{ loopback_network_summary | ipaddr('network') | ipmath(leaf_id + 10) }}/32
+    rid_loopback_ip: {{ rid_loopback_network_summary | ipaddr('network') | ipmath(leaf_id + 10) }}/32
+    vtep_loopback_ip: {{ vtep_loopback_network_summary | ipaddr('network') | ipmath(leaf_id + 10) }}/32
 {% endfor %}

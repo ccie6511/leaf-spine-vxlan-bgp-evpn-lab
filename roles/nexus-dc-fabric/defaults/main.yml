@@ -1,0 +1,6 @@
+features:
+  - bgp
+  - ospf
+  - nv overlay
+  - vn-segment-vlan-based
+  - feature pim

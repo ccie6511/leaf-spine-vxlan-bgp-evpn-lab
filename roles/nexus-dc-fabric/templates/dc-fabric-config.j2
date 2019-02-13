@@ -1,12 +1,16 @@
-{# router underlay and management configuration #}
+{# Fabric based configuration Configuration #}
+
+hostname {{ inventory_hostname }}
 
 {# Fabric features #}
-feature bgp
-feature ospf
+{% for feature in features %}
+feature {{ feature }}
+{% endfor %}
+nv overlay evpn
 
 {# OSPF process #}
 router ospf underlay
-  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+  router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
 
 {# OSPF P2P Interfaces #}
 {% for interface in dc_fabric_switches[inventory_hostname].interfaces | natural_sort %}
@@ -17,22 +21,56 @@ interface {{ interface }}
   mtu 9192
   ip router ospf UNDERLAY area 0.0.0.0
   ip ospf network point-to-point
+  ip pim sparse-mode
   no shutdown
 {% endfor %}
-{# loopback interface #}
+{# router id loopback interface #}
 interface loopback0
-  ip address {{ dc_fabric_switches[inventory_hostname].loopback_ip_address }}
+  description router id
+  ip address {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip }}
+  ip router ospf UNDERLAY area 0.0.0.0
+{# multicast loopback interfaces - spine only #}
+{% if type == "leaf" %}
+interface loopback1
+  description vtep
+  ip address {{ dc_fabric_switches[inventory_hostname].vtep_loopback_ip }}
   ip router ospf UNDERLAY area 0.0.0.0
 
-{# spine bgp configuration #}
+interface nve1
+  source-interface loopback1
+  host-reachability protocol bgp
+{% endif %}
+{% if type == "spine" %}
+interface loopback10
+  description pim anycast
+  ip address {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip }}
+  ip router ospf UNDERLAY area 0.0.0.0
+  ip pim sparse-mode
+interface loopback11
+  description pim rp
+  ip address {{ dc_fabric_switches[inventory_hostname].pim_rp_loopback_ip }}
+  ip router ospf UNDERLAY area 0.0.0.0
+  ip pim sparse-mode
+
+{# Anycast-RP Configuration on Spine #}
+ip pim rp-address {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip | ipaddr('address') }}
+{%     for spine in groups['spines'] %}
+ip pim anycast-rp {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip | ipaddr('address') }} {{ dc_fabric_switches[spine].pim_rp_loopback_ip | ipaddr('address') }}
+{%     endfor %}
+{% endif %}
+
+
+{# spine bgp configuration - enabel BGP route reflector #}
 {% if type == "spine" %}
 router bgp {{ underlay_bgp_as }}
   address-family ipv4 unicast
-  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+  router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
 {%     for leaf in groups['leafs'] %}
-  neighbor {{ dc_fabric_switches[leaf].loopback_ip_address | ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+  neighbor {{ dc_fabric_switches[leaf].rid_loopback_ip| ipaddr('address')}} remote-as {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ leaf }}-Loopback
-    address-family ipv4 unicast
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community both
       route-reflector-client
 {%     endfor %}
 {% endif %}
@@ -41,11 +79,13 @@ router bgp {{ underlay_bgp_as }}
 {% if type == "leaf" %}
 router bgp {{ underlay_bgp_as }}
   address-family ipv4 unicast
-  router-id {{ dc_fabric_switches[inventory_hostname].loopback_ip_address | ipaddr('address')}}
+  router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
 {%     for spine in groups['spines'] %}
-  neighbor {{ dc_fabric_switches[spine].loopback_ip_address | ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+  neighbor {{ dc_fabric_switches[spine].rid_loopback_ip| ipaddr('address')}} remote-as {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ spine }}-Loopback
-    address-family ipv4 unicast
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community both
 {%     endfor %}
 {% endif %}
 
