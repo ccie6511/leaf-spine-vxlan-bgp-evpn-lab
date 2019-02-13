@@ -1,3 +1,19 @@
-loopback_network_summary: 10.255.255.0/24
+---
+
+# IP address range for router id loopback - all switches in fabric #
+rid_loopback_network_summary: 10.255.255.0/24
+
+# IP address range for multicast rendez-vous point - spines only
+pim_rp_loopback_network_summary: 10.255.253.0/29
+
+# pim anycast IP for spines switches (shared ip /32)
+pim_anycast_loopback_ip: 10.255.253.10/32
+
+# VTEP loopback IP for leaf switches
+vtep_loopback_network_summary: 10.255.252.0/24
+
+# Point to Point Network Summary range, assigned as /31 for each uplinks.
 underlay_p2p_network_summary: 10.255.254.0/24
+
+# BGP AS for underlay MP-BGP EVPN
 underlay_bgp_as: 65500
