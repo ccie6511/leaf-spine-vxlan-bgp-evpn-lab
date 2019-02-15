@@ -9,7 +9,7 @@ feature {{ feature }}
 nv overlay evpn
 
 {# OSPF process #}
-router ospf underlay
+router ospf UNDERLAY
   router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
 
 {# OSPF P2P Interfaces #}
