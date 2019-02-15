@@ -21,8 +21,6 @@ leaf-3
 leaf-4
 leaf-5
 leaf-6
-leaf-7
-leaf-8
 
 [servers]
 server-1
