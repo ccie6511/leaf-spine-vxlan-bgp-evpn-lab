@@ -2,7 +2,6 @@
 spines
 leafs
 servers
-wan
 
 [dc-fabric:children]
 spines
@@ -25,8 +24,8 @@ server-1
 server-2
 
 [wan]
-wan-1
-wan-2
+#wan-1
+#wan-2
 
 
 [ios:children]
