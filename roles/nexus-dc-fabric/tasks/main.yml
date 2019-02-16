@@ -17,3 +17,8 @@
     src: dc-fabric-config.j2
     dest: ./intended_configs/{{ inventory_hostname }}.cfg
   delegate_to: localhost
+
+- name: merge configuration with fabric switches
+  nxos_config:
+    src: ./intended_configs/{{ inventory_hostname }}.cfg
+    save_when: modified
