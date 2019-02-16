@@ -3,4 +3,4 @@ features:
   - ospf
   - nv overlay
   - vn-segment-vlan-based
-  - feature pim
+  - pim
