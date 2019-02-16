@@ -8,19 +8,13 @@ dc_fabric_switches:
         ip_address: 10.255.254.0/31
       Ethernet1/2:
         description: P2P_UPLINK_TO_LEAF-2_Ethernet1/6
-        ip_address: 10.255.254.8/31
+        ip_address: 10.255.254.4/31
       Ethernet1/3:
         description: P2P_UPLINK_TO_LEAF-3_Ethernet1/6
-        ip_address: 10.255.254.16/31
+        ip_address: 10.255.254.8/31
       Ethernet1/4:
         description: P2P_UPLINK_TO_LEAF-4_Ethernet1/6
-        ip_address: 10.255.254.24/31
-      Ethernet1/5:
-        description: P2P_UPLINK_TO_LEAF-5_Ethernet1/6
-        ip_address: 10.255.254.32/31
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_LEAF-6_Ethernet1/6
-        ip_address: 10.255.254.40/31
+        ip_address: 10.255.254.12/31
     rid_loopback_ip: 10.255.255.1/32
     pim_rp_loopback_ip: 10.255.253.1/32
     pim_anycast_loopback_ip: 10.255.253.10/32
@@ -31,67 +25,15 @@ dc_fabric_switches:
         ip_address: 10.255.254.2/31
       Ethernet1/2:
         description: P2P_UPLINK_TO_LEAF-2_Ethernet1/7
-        ip_address: 10.255.254.10/31
+        ip_address: 10.255.254.6/31
       Ethernet1/3:
         description: P2P_UPLINK_TO_LEAF-3_Ethernet1/7
-        ip_address: 10.255.254.18/31
+        ip_address: 10.255.254.10/31
       Ethernet1/4:
         description: P2P_UPLINK_TO_LEAF-4_Ethernet1/7
-        ip_address: 10.255.254.26/31
-      Ethernet1/5:
-        description: P2P_UPLINK_TO_LEAF-5_Ethernet1/7
-        ip_address: 10.255.254.34/31
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_LEAF-6_Ethernet1/7
-        ip_address: 10.255.254.42/31
+        ip_address: 10.255.254.14/31
     rid_loopback_ip: 10.255.255.2/32
     pim_rp_loopback_ip: 10.255.253.2/32
-    pim_anycast_loopback_ip: 10.255.253.10/32
-  spine-3:
-    interfaces:
-      Ethernet1/1:
-        description: P2P_UPLINK_TO_LEAF-1_Ethernet1/8
-        ip_address: 10.255.254.4/31
-      Ethernet1/2:
-        description: P2P_UPLINK_TO_LEAF-2_Ethernet1/8
-        ip_address: 10.255.254.12/31
-      Ethernet1/3:
-        description: P2P_UPLINK_TO_LEAF-3_Ethernet1/8
-        ip_address: 10.255.254.20/31
-      Ethernet1/4:
-        description: P2P_UPLINK_TO_LEAF-4_Ethernet1/8
-        ip_address: 10.255.254.28/31
-      Ethernet1/5:
-        description: P2P_UPLINK_TO_LEAF-5_Ethernet1/8
-        ip_address: 10.255.254.36/31
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_LEAF-6_Ethernet1/8
-        ip_address: 10.255.254.44/31
-    rid_loopback_ip: 10.255.255.3/32
-    pim_rp_loopback_ip: 10.255.253.3/32
-    pim_anycast_loopback_ip: 10.255.253.10/32
-  spine-4:
-    interfaces:
-      Ethernet1/1:
-        description: P2P_UPLINK_TO_LEAF-1_Ethernet1/9
-        ip_address: 10.255.254.6/31
-      Ethernet1/2:
-        description: P2P_UPLINK_TO_LEAF-2_Ethernet1/9
-        ip_address: 10.255.254.14/31
-      Ethernet1/3:
-        description: P2P_UPLINK_TO_LEAF-3_Ethernet1/9
-        ip_address: 10.255.254.22/31
-      Ethernet1/4:
-        description: P2P_UPLINK_TO_LEAF-4_Ethernet1/9
-        ip_address: 10.255.254.30/31
-      Ethernet1/5:
-        description: P2P_UPLINK_TO_LEAF-5_Ethernet1/9
-        ip_address: 10.255.254.38/31
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_LEAF-6_Ethernet1/9
-        ip_address: 10.255.254.46/31
-    rid_loopback_ip: 10.255.255.4/32
-    pim_rp_loopback_ip: 10.255.253.4/32
     pim_anycast_loopback_ip: 10.255.253.10/32
 
   leaf-1:
@@ -102,91 +44,35 @@ dc_fabric_switches:
       Ethernet1/7:
         description: P2P_UPLINK_TO_SPINE-2_Ethernet1/1
         ip_address: 10.255.254.3/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/1
-        ip_address: 10.255.254.5/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/1
-        ip_address: 10.255.254.7/31
     rid_loopback_ip: 10.255.255.11/32
     vtep_loopback_ip: 10.255.252.11/32
   leaf-2:
     interfaces:
       Ethernet1/6:
         description: P2P_UPLINK_TO_SPINE-1_Ethernet1/2
-        ip_address: 10.255.254.9/31
+        ip_address: 10.255.254.5/31
       Ethernet1/7:
         description: P2P_UPLINK_TO_SPINE-2_Ethernet1/2
-        ip_address: 10.255.254.11/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/2
-        ip_address: 10.255.254.13/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/2
-        ip_address: 10.255.254.15/31
+        ip_address: 10.255.254.7/31
     rid_loopback_ip: 10.255.255.12/32
     vtep_loopback_ip: 10.255.252.12/32
   leaf-3:
     interfaces:
       Ethernet1/6:
         description: P2P_UPLINK_TO_SPINE-1_Ethernet1/3
-        ip_address: 10.255.254.17/31
+        ip_address: 10.255.254.9/31
       Ethernet1/7:
         description: P2P_UPLINK_TO_SPINE-2_Ethernet1/3
-        ip_address: 10.255.254.19/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/3
-        ip_address: 10.255.254.21/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/3
-        ip_address: 10.255.254.23/31
+        ip_address: 10.255.254.11/31
     rid_loopback_ip: 10.255.255.13/32
     vtep_loopback_ip: 10.255.252.13/32
   leaf-4:
     interfaces:
       Ethernet1/6:
         description: P2P_UPLINK_TO_SPINE-1_Ethernet1/4
-        ip_address: 10.255.254.25/31
+        ip_address: 10.255.254.13/31
       Ethernet1/7:
         description: P2P_UPLINK_TO_SPINE-2_Ethernet1/4
-        ip_address: 10.255.254.27/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/4
-        ip_address: 10.255.254.29/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/4
-        ip_address: 10.255.254.31/31
+        ip_address: 10.255.254.15/31
     rid_loopback_ip: 10.255.255.14/32
     vtep_loopback_ip: 10.255.252.14/32
-  leaf-5:
-    interfaces:
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_SPINE-1_Ethernet1/5
-        ip_address: 10.255.254.33/31
-      Ethernet1/7:
-        description: P2P_UPLINK_TO_SPINE-2_Ethernet1/5
-        ip_address: 10.255.254.35/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/5
-        ip_address: 10.255.254.37/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/5
-        ip_address: 10.255.254.39/31
-    rid_loopback_ip: 10.255.255.15/32
-    vtep_loopback_ip: 10.255.252.15/32
-  leaf-6:
-    interfaces:
-      Ethernet1/6:
-        description: P2P_UPLINK_TO_SPINE-1_Ethernet1/6
-        ip_address: 10.255.254.41/31
-      Ethernet1/7:
-        description: P2P_UPLINK_TO_SPINE-2_Ethernet1/6
-        ip_address: 10.255.254.43/31
-      Ethernet1/8:
-        description: P2P_UPLINK_TO_SPINE-3_Ethernet1/6
-        ip_address: 10.255.254.45/31
-      Ethernet1/9:
-        description: P2P_UPLINK_TO_SPINE-4_Ethernet1/6
-        ip_address: 10.255.254.47/31
-    rid_loopback_ip: 10.255.255.16/32
-    vtep_loopback_ip: 10.255.252.16/32
