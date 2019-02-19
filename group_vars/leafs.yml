@@ -1,6 +1,4 @@
 type: leaf
 uplink_ports:
-  - Ethernet1/6
-  - Ethernet1/7
-  - Ethernet1/8
-  - Ethernet1/9
+  - Ethernet1/3
+  - Ethernet1/4
