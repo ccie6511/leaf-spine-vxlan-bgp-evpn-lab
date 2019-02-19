@@ -63,10 +63,11 @@ ip pim anycast-rp {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback
 {# spine bgp configuration - enabel BGP route reflector #}
 {% if type == "spine" %}
 router bgp {{ underlay_bgp_as }}
-  address-family ipv4 unicast
   router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
+  address-family ipv4 unicast
 {%     for leaf in groups['leafs'] %}
-  neighbor {{ dc_fabric_switches[leaf].rid_loopback_ip| ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+  neighbor {{ dc_fabric_switches[leaf].rid_loopback_ip| ipaddr('address')}}
+    remote-as {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ leaf }}-Loopback
     update-source loopback0
     address-family l2vpn evpn
@@ -78,10 +79,11 @@ router bgp {{ underlay_bgp_as }}
 {# leaf bgp configuration #}
 {% if type == "leaf" %}
 router bgp {{ underlay_bgp_as }}
-  address-family ipv4 unicast
   router-id {{ dc_fabric_switches[inventory_hostname].rid_loopback_ip| ipaddr('address')}}
+  address-family ipv4 unicast
 {%     for spine in groups['spines'] %}
-  neighbor {{ dc_fabric_switches[spine].rid_loopback_ip| ipaddr('address')}} remote-as {{ underlay_bgp_as }}
+  neighbor {{ dc_fabric_switches[spine].rid_loopback_ip| ipaddr('address')}}
+    remote-as {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ spine }}-Loopback
     update-source loopback0
     address-family l2vpn evpn
