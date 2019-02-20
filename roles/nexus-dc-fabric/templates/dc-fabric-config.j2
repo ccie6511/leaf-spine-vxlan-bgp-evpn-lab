@@ -53,7 +53,7 @@ interface loopback11
   ip pim sparse-mode
 
 {# Anycast-RP Configuration on Spine #}
-ip pim rp-address {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip | ipaddr('address') }}
+ip pim rp-address {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip | ipaddr('address') }} group-list 224.0.0.0/4
 {%     for spine in groups['spines'] %}
 ip pim anycast-rp {{ dc_fabric_switches[inventory_hostname].pim_anycast_loopback_ip | ipaddr('address') }} {{ dc_fabric_switches[spine].pim_rp_loopback_ip | ipaddr('address') }}
 {%     endfor %}
@@ -71,7 +71,8 @@ router bgp {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ leaf }}-Loopback
     update-source loopback0
     address-family l2vpn evpn
-      send-community both
+      send-community
+      send-community extended
       route-reflector-client
 {%     endfor %}
 {% endif %}
@@ -87,7 +88,8 @@ router bgp {{ underlay_bgp_as }}
     description {{ inventory_hostname }}-Loopback-to-{{ spine }}-Loopback
     update-source loopback0
     address-family l2vpn evpn
-      send-community both
+      send-community
+      send-community extended
 {%     endfor %}
 {% endif %}
 
