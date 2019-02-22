@@ -1,0 +1,3 @@
+uplink_ports:
+  - Ethernet1/47
+  - Ethernet1/48
