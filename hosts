@@ -17,6 +17,8 @@ leaf-1A
 leaf-1B
 leaf-2A
 leaf-2B
+leaf-3A
+leaf-3B
 
 
 [servers]
